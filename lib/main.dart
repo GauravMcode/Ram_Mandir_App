@@ -12,6 +12,7 @@ class RamMandirApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizeConfigInit(
+      //for responsiveness
       referenceHeight: MediaQuery.of(context).size.height,
       referenceWidth: MediaQuery.of(context).size.width,
       builder: (context, orientation) => const MaterialApp(

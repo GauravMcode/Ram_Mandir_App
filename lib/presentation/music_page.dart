@@ -17,6 +17,8 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
   @override
   void initState() {
     setPlayer(0);
+
+    //initialize controller
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),

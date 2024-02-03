@@ -9,6 +9,7 @@ import 'package:ram_mandir_app/presentation/widgets/middle_text_widget.dart';
 import 'package:ram_mandir_app/presentation/widgets/progress_bar.dart';
 import 'package:size_config/size_config.dart';
 
+// the first page
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -19,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    //flutter toast
     Fluttertoast.showToast(
         msg: "Swipe Screen Left to view more",
         toastLength: Toast.LENGTH_SHORT,
