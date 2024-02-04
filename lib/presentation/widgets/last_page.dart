@@ -36,7 +36,7 @@ class _LastPageState extends State<LastPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return DecoratedBox(
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/ram_bg.jpg"), fit: BoxFit.fill)),
+        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/ram_bg.png"), fit: BoxFit.fill)),
         child: GlassmorphicContainer(
           borderRadius: 2,
           blur: 5,

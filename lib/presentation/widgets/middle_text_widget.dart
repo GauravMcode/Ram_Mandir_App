@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:ram_mandir_app/data/app_data/events.dart';
 import 'package:size_config/size_config.dart';
@@ -39,15 +38,10 @@ class MiddleText extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30.h),
-            AnimatedTextKit(
-              totalRepeatCount: 1,
-              animatedTexts: [
-                TypewriterAnimatedText(
-                  events[index].description,
-                  textAlign: TextAlign.center,
-                  textStyle: TextStyle(fontStyle: FontStyle.italic, color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.sp),
-                ),
-              ],
+            Text(
+              events[index].description,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.sp),
             ),
             SizedBox(height: 100.h),
           ],

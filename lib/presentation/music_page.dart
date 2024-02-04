@@ -57,7 +57,6 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
           floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
           floatingActionButton: IconButton(
             onPressed: () {
-              BlocProvider.of<MusicCubit>(context).setIndex(0);
               Navigator.of(context).pop();
             },
             icon: const Icon(

@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             currentEvent = index - 1;
             return LayoutBuilder(builder: (context, constraints) {
               return DecoratedBox(
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/ram_bg.jpg"), fit: BoxFit.fill)),
+                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/ram_bg.png"), fit: BoxFit.fill)),
                 child: GlassmorphicContainer(
                   borderRadius: 2,
                   blur: 5,
