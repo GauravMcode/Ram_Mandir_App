@@ -14,6 +14,12 @@ Run **flutter pub get** and then **flutter run** to run the project.
 - **flutter_localization** and **intl** package is used for localization,
 - **just_audio** package is used to play audio for music player
 
+## Localization guide:
+- To add new language, create new arb file inside the folder l10n in lib. The file name should be app_{language code}.dart.
+- add translation texts in that file
+- run  ```flutter pub get ``` to generate localization files
+- add new language in  the **AppSettings** widget.
+
 ## Folder Structre:
 This Project follows BLoC Architecture Pattern, where code is seperated into :
 
