@@ -27,8 +27,8 @@ Run **flutter pub get** and then **flutter run** to run the project.
 - Changing state i.e. app language throughout the app when language changed through settings
 - playing audio of bhajans. For that, I used audio_player package
 
-## Folder Structre:
-This Project follows BLoC Architecture Pattern, where code is seperated into :
+## Folder Structure:
+This Project follows BLoC Architecture Pattern, where code is separated into :
 
 ```
 |- Data Layer
