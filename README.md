@@ -11,14 +11,21 @@ Run **flutter pub get** and then **flutter run** to run the project.
 ## Stacks:
 - **Bloc(cubits)** is used for State Management.
 - Bloc Architecture is used.
-- **flutter_localization** and **intl** package is used for localization,
-- **just_audio** package is used to play audio for music player
+- **flutter_localization** and **intl** package is used for localization.
+- **shared_preferences** for persisting localization state.
+- **just_audio** package is used to play audio for music player.
 
 ## Localization guide:
 - To add new language, create new arb file inside the folder l10n in lib. The file name should be app_{language code}.dart.
 - add translation texts in that file
 - run  ```flutter pub get ``` to generate localization files
 - add new language in  the **AppSettings** widget.
+
+## Challenges faced:
+- ensuring Localization of static assets which were list of Events and Music items.For that i defined a method that takes context as parameter
+- managing localization state and persisting it locally on device. For this, I used Bloc cubits and shared_preferences
+- Changing state i.e. app language throughout the app when language changed through settings
+- playing audio of bhajans. For that, I used audio_player package
 
 ## Folder Structre:
 This Project follows BLoC Architecture Pattern, where code is seperated into :

@@ -49,7 +49,6 @@ class _MusicPageState extends State<MusicPage>
   @override
   Widget build(BuildContext context) {
     final bhajans = getBhajans(context);
-    setPlayer(state, bhajans);
     return BlocProvider(
       create: (context) => MusicCubit(),
       child: PopScope(
@@ -70,6 +69,7 @@ class _MusicPageState extends State<MusicPage>
           ),
           body: BlocBuilder<MusicCubit, int>(
             builder: (context, state) {
+              setPlayer(state, bhajans);
               return LayoutBuilder(builder: (context, constraints) {
                 return Container(
                   width: constraints.maxWidth,
