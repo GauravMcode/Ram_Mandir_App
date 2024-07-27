@@ -57,6 +57,7 @@ The **bloc** sub-folder has cubits :
 ```
 bloc
   |- music_cubit.dart
+  |- language_cubit.dart
 ```
 The **presentation** sub-folder consists all UI part ; widgets contain refactored and re-usable widgets.
 
@@ -73,6 +74,7 @@ presentation
       |- last_page.dart
       |- middle_text_widget.dart
       |- progress_bar.dart
+      |- app_settings.dart
        
   
 ```
