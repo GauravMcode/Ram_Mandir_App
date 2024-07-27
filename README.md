@@ -1,6 +1,6 @@
 # Ram_Mandir_App
 
-A new Flutter project based on events of Ram Temple. Also a music player playing bhajans of Lord Rama.
+A new Flutter project based on timeline events of Ram Temple. Also a music player playing bhajans of Lord Rama. Along with Localization support for English and Hindi Language.
 
 ## Getting Started
 
@@ -16,6 +16,12 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Stacks:
+- **Bloc(cubits)** is used for State Management.
+- Bloc Architecture is used.
+- **flutter_localization** and **intl** package is used for localization,
+- **just_audio** package is used to play audio for music player
 
 ## Folder Structre:
 This Project follows BLoC Architecture Pattern, where code is seperated into :

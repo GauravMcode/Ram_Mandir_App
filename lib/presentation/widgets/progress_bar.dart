@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ram_mandir_app/data/app_data/events.dart';
 
 class ProgressBar extends StatelessWidget {
-  ProgressBar({super.key, required this.index, required this.constraints});
+  const ProgressBar(
+      {super.key, required this.index, required this.constraints});
   final int index;
   final BoxConstraints constraints;
-  final length = events.length;
   @override
   Widget build(BuildContext context) {
+    final events = getEvents(context);
+    final length = events.length;
     return Stack(
       children: [
         Container(

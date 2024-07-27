@@ -4,6 +4,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:ram_mandir_app/Bloc/music_cubit.dart';
 import 'package:ram_mandir_app/data/app_data/music.dart';
+import 'package:ram_mandir_app/data/models/music.dart';
 import 'package:size_config/size_config.dart';
 
 class MusicPage extends StatefulWidget {
@@ -13,11 +14,11 @@ class MusicPage extends StatefulWidget {
   State<MusicPage> createState() => _MusicPageState();
 }
 
-class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMixin {
+class _MusicPageState extends State<MusicPage>
+    with SingleTickerProviderStateMixin {
+  List<Music> bhajans = [];
   @override
   void initState() {
-    setPlayer(0);
-
     //initialize controller
     controller = AnimationController(
       vsync: this,
@@ -39,7 +40,7 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
 
   late AnimationController controller;
 
-  setPlayer(int state) async {
+  setPlayer(int state, List<Music> bhajans) async {
     await player.setAsset(bhajans[state].audioPath) ?? const Duration();
   }
 
@@ -47,6 +48,8 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final bhajans = getBhajans(context);
+    setPlayer(state, bhajans);
     return BlocProvider(
       create: (context) => MusicCubit(),
       child: PopScope(
@@ -54,7 +57,8 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
           player.stop();
         },
         child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniStartTop,
           floatingActionButton: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -70,7 +74,10 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
                 return Container(
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
-                  decoration: BoxDecoration(image: DecorationImage(image: AssetImage(bhajans[state].imageUrl), fit: BoxFit.fill)),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(bhajans[state].imageUrl),
+                          fit: BoxFit.fill)),
                   child: GlassmorphicContainer(
                     width: constraints.maxWidth * 0.9,
                     height: constraints.maxHeight * 0.9,
@@ -78,13 +85,17 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
                     blur: 5,
                     alignment: Alignment.center,
                     border: 2,
-                    linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-                      const Color(0xFFffffff).withOpacity(0.1),
-                      const Color(0xFFFFFFFF).withOpacity(0.05),
-                    ], stops: const [
-                      0.1,
-                      1,
-                    ]),
+                    linearGradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          const Color(0xFFffffff).withOpacity(0.1),
+                          const Color(0xFFFFFFFF).withOpacity(0.05),
+                        ],
+                        stops: const [
+                          0.1,
+                          1,
+                        ]),
                     borderGradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -104,25 +115,26 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
                         ),
                         Text(
                           "\"${bhajans[state].title}\"",
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500),
                         ),
                         Text(
                           "- ${bhajans[state].singer}",
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(height: 50.h),
                         StreamBuilder<Duration?>(
                             stream: player.positionStream,
                             builder: (context, snapshot) {
-                              if (snapshot.data?.inSeconds == bhajans[state].duration.inSeconds) {
+                              if (snapshot.data?.inSeconds ==
+                                  bhajans[state].duration.inSeconds) {
                                 WidgetsBinding.instance.addPostFrameCallback(
                                   (timeStamp) {
-                                    BlocProvider.of<MusicCubit>(context).setIndex((state + 1) % bhajans.length);
-                                    // setState(() {
-                                    // state = (state + 1) % bhajans.length;
-                                    setPlayer(state);
+                                    BlocProvider.of<MusicCubit>(context)
+                                        .setIndex((state + 1) % bhajans.length);
+                                    setPlayer(state, bhajans);
                                     player.seek(const Duration());
-                                    // });
                                   },
                                 );
                               }
@@ -131,24 +143,38 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
                                 children: [
                                   Text(
                                     "${(snapshot.data?.inMinutes ?? 0).floor()}:${((snapshot.data?.inSeconds ?? 0) % 60) < 10 ? "0" : ""}${(snapshot.data?.inSeconds ?? 0) % 60}",
-                                    style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Slider(
-                                    value: snapshot.data?.inSeconds.toDouble() ?? 0,
-                                    divisions: bhajans[state].duration.inSeconds,
+                                    value:
+                                        snapshot.data?.inSeconds.toDouble() ??
+                                            0,
+                                    divisions:
+                                        bhajans[state].duration.inSeconds,
                                     activeColor: Colors.black,
                                     thumbColor: Colors.white,
-                                    label: "${(snapshot.data?.inMinutes ?? 0 / 60).floor()}:${((snapshot.data?.inSeconds ?? 0) % 60) < 10 ? "0" : ""}${(snapshot.data?.inSeconds ?? 0) % 60}",
-                                    max: bhajans[state].duration.inSeconds.toDouble(),
+                                    label:
+                                        "${(snapshot.data?.inMinutes ?? 0 / 60).floor()}:${((snapshot.data?.inSeconds ?? 0) % 60) < 10 ? "0" : ""}${(snapshot.data?.inSeconds ?? 0) % 60}",
+                                    max: bhajans[state]
+                                        .duration
+                                        .inSeconds
+                                        .toDouble(),
                                     onChanged: (double newvalue) {
                                       // setState(() {
-                                      player.seek(Duration(seconds: newvalue.toInt()));
+                                      player.seek(
+                                          Duration(seconds: newvalue.toInt()));
                                       // });
                                     },
                                   ),
                                   Text(
                                       "${bhajans[state].duration.inMinutes}:${bhajans[state].duration.inSeconds % 60 < 10 ? "0${bhajans[state].duration.inSeconds % 60}" : bhajans[state].duration.inSeconds % 60}",
-                                      style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold)),
                                 ],
                               );
                             }),
@@ -168,9 +194,11 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
                                     : () async {
                                         await player.seek(Duration.zero);
                                         await player.stop();
-                                        BlocProvider.of<MusicCubit>(context).setIndex(--state);
+                                        BlocProvider.of<MusicCubit>(context)
+                                            .setIndex(--state);
 
-                                        await player.setAsset(bhajans[state].audioPath);
+                                        await player
+                                            .setAsset(bhajans[state].audioPath);
                                         await player.play();
                                       },
                               ),
@@ -205,8 +233,10 @@ class _MusicPageState extends State<MusicPage> with SingleTickerProviderStateMix
                                     : () async {
                                         await player.seek(Duration.zero);
                                         await player.stop();
-                                        BlocProvider.of<MusicCubit>(context).setIndex(++state);
-                                        await player.setAsset(bhajans[state].audioPath);
+                                        BlocProvider.of<MusicCubit>(context)
+                                            .setIndex(++state);
+                                        await player
+                                            .setAsset(bhajans[state].audioPath);
                                         await player.play();
                                       },
                               )

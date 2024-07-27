@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:page_flip/page_flip.dart';
 import 'package:ram_mandir_app/data/app_data/events.dart';
+import 'package:ram_mandir_app/presentation/widgets/app_settings.dart';
 import 'package:ram_mandir_app/presentation/widgets/bottom_image.dart';
 import 'package:ram_mandir_app/presentation/widgets/last_page.dart';
 import 'package:ram_mandir_app/presentation/widgets/middle_text_widget.dart';
 import 'package:ram_mandir_app/presentation/widgets/progress_bar.dart';
 import 'package:size_config/size_config.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // the first page
 class HomePage extends StatefulWidget {
@@ -36,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   int currentEvent = 0;
   @override
   Widget build(BuildContext context) {
+    final events = getEvents(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -47,6 +51,33 @@ class _HomePageState extends State<HomePage> {
           color: Colors.white,
         ),
       ),
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.appTitle,
+          style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                    color: Colors.black, offset: Offset(2, 1), blurRadius: 0.5)
+              ]),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.orange,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => const AlertDialog(
+                        contentPadding: EdgeInsets.all(10),
+                        content: AppSettings(),
+                      ));
+            },
+            icon: const Icon(Icons.settings),
+          )
+        ],
+      ),
       body: SafeArea(
         child: PageFlipWidget(
           key: _controller,
@@ -55,19 +86,26 @@ class _HomePageState extends State<HomePage> {
             currentEvent = index - 1;
             return LayoutBuilder(builder: (context, constraints) {
               return DecoratedBox(
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/ram_bg.png"), fit: BoxFit.fill)),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/ram_bg.png"),
+                        fit: BoxFit.fill)),
                 child: GlassmorphicContainer(
                   borderRadius: 2,
                   blur: 5,
                   alignment: Alignment.center,
                   border: 2,
-                  linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-                    const Color(0xFFffffff).withOpacity(0.1),
-                    const Color(0xFFFFFFFF).withOpacity(0.05),
-                  ], stops: const [
-                    0.1,
-                    1,
-                  ]),
+                  linearGradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFFffffff).withOpacity(0.1),
+                        const Color(0xFFFFFFFF).withOpacity(0.05),
+                      ],
+                      stops: const [
+                        0.1,
+                        1,
+                      ]),
                   borderGradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -97,7 +135,13 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Positioned(
                             top: -20.h,
-                            left: index == 0 ? currentEvent * (constraints.maxWidth * 0.3 / events.length) : currentEvent * (constraints.maxWidth * 0.3 / events.length),
+                            left: index == 0
+                                ? currentEvent *
+                                    (constraints.maxWidth * 0.3 / events.length)
+                                : currentEvent *
+                                    (constraints.maxWidth *
+                                        0.3 /
+                                        events.length),
                             child: Image.asset(
                               "assets/images/bhagwa.png",
                               width: 150.w,

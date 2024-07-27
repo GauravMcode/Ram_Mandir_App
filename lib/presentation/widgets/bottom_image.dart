@@ -7,6 +7,7 @@ class BottomImage extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
+    final events = getEvents(context);
     return SizedBox(
       width: double.infinity,
       child: Image.asset(
